@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Navigation from './components/Navigation/Navigation';
+import SignIn from './components/SignIn/SignIn';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/Imagelinkform/Imagelinkform';
 import Rank from './components/Rank/Rank';
+import Register from './components/Register/Register';
 import Clarifai from 'clarifai';
 import './App.css';
 
@@ -30,7 +32,8 @@ class App extends Component {
     this.state = {
       input: '',
       imageURL: '',
-      box: {}
+      box: {},
+      route: 'signin'
     }
   }
 
@@ -71,29 +74,36 @@ onButtonSubmit = () => {
 
 }
 
+onRouteChange = (route) => {
+  this.setState({route: route})
+}
+
  render() {
   return (
     <div className="App">
       <Particles className='particles'
            params= {particleOptions}
       />
-      <Navigation 
-
-      />
-      <Logo 
-
-      />
-      <Rank 
-
-      />
-      <ImageLinkForm 
-        onInputChange={this.onInputChange}  //Since property of app comp, must use this.
-        onButtonSubmit={this.onButtonSubmit} //Since property of app comp, must use this.
-      />
-      <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
+      <Navigation  onRouteChange={this.onRouteChange} />
+     { this.state.route === 'home'
+      ?   <div>
+            <Logo  />
+            <Rank  />
+            <ImageLinkForm 
+              onInputChange={this.onInputChange}  //Since property of App comp, must use this.
+              onButtonSubmit={this.onButtonSubmit} //Since property of App comp, must use this.
+            />
+            <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
+          </div>
+          : (
+              this.state.route ==='signin'
+              ? <SignIn onRouteChange={this.onRouteChange}/> //object assigned to the onClick 
+              : <Register onRouteChange={this.onRouteChange}/> //object assigned to the onClick 
+          )
+          
+     }
     </div>
   );
 }
 }
-
 export default App;
