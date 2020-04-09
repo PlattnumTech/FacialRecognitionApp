@@ -33,7 +33,8 @@ class App extends Component {
       input: '',
       imageURL: '',
       box: {},
-      route: 'signin'
+      route: 'signin',
+      isSignedIn: false
     }
   }
 
@@ -53,7 +54,6 @@ class App extends Component {
   }
 
   displayFacebox = (box) => {
-    console.log(box);
     this.setState({box: box});
   }
 
@@ -75,17 +75,24 @@ onButtonSubmit = () => {
 }
 
 onRouteChange = (route) => {
-  this.setState({route: route})
+  if (route === 'signout') {
+    this.setState({isSignedIn: false})
+  } else if (route === 'home') {
+    this.setState({isSignedIn: true})
+  }
+  this.setState({route: route});
 }
 
  render() {
+    //Destructing so no longer have to use 'this.'
+    const { isSignedIn, imageURL, route, box } = this.state;
   return (
     <div className="App">
       <Particles className='particles'
            params= {particleOptions}
       />
-      <Navigation  onRouteChange={this.onRouteChange} />
-     { this.state.route === 'home'
+      <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+     { route === 'home'
       ?   <div>
             <Logo  />
             <Rank  />
@@ -93,10 +100,10 @@ onRouteChange = (route) => {
               onInputChange={this.onInputChange}  //Since property of App comp, must use this.
               onButtonSubmit={this.onButtonSubmit} //Since property of App comp, must use this.
             />
-            <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
+            <FaceRecognition box={box} imageURL={imageURL} />
           </div>
           : (
-              this.state.route ==='signin'
+             route ==='signin'
               ? <SignIn onRouteChange={this.onRouteChange}/> //object assigned to the onClick 
               : <Register onRouteChange={this.onRouteChange}/> //object assigned to the onClick 
           )
