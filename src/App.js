@@ -98,6 +98,12 @@ onPictureSubmit = () => {
         
         })
       })
+      //Promise after botton is clicked
+      .then(response => response.json())
+      .then(count => {
+          //Use Object.assign to only change the state of the entry property of the user
+          this.setState(Object.assign(this.state.user, {entries: count}))
+      })
     }
        this.displayFacebox(this.calculateFaceLocation(response))
       })
