@@ -29,9 +29,11 @@ class SignIn extends React.Component {
         password: this.state.signInPassword
             })
       })
+      //Promise
         .then(response => response.json())
         .then(data => {
             if (data === 'success') {
+              //Changing ROute
               this.props.onRouteChange('home');
             }
        
@@ -74,7 +76,9 @@ class SignIn extends React.Component {
                 value="Sign in" />
           </div>
           <div className="lh-copy mt3">
-            <p onClick={() =>  onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
+            <p onClick={() =>  onRouteChange('register')} 
+            className="f6 link dim black db pointer">
+            Register</p>
           </div>
         </div>
       </main>
