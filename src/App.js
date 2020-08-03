@@ -94,7 +94,7 @@ onPictureSubmit = () => {
           method: 'put',
           headers:{'Content-Type': 'application/json'},
           body: JSON.stringify({
-          id: this.state.id
+          id: this.state.user.id
         
         })
       })
